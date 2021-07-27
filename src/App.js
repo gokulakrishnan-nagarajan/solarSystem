@@ -1,6 +1,18 @@
 import { useEffect } from 'react';
 import * as THREE from 'three';
 
+import SunTexture from '../src/assets/images/sun.jpeg';
+import MercuryTexture from '../src/assets/images/mercury.jpeg';
+import VenusTexture from '../src/assets/images/venus.jpeg';
+import EarthTexture from '../src/assets/images/earth.jpeg';
+import MarsTexture from '../src/assets/images/mars.jpeg';
+import JupiterTexture from '../src/assets/images/jupiter.jpeg';
+import SaturnTexture from '../src/assets/images/saturn.jpeg';
+import UranusTexture from '../src/assets/images/uranus.jpeg';
+import NeptuneTexture from '../src/assets/images/neptune.jpeg';
+import PlutoTexture from '../src/assets/images/pluto.jpeg';
+import StarsTexture from '../src/assets/images/stars.jpeg';
+
 import './App.scss';
 
 function App() {
@@ -19,12 +31,17 @@ function App() {
     camera.up.set(0, 0, 1);
     camera.lookAt(0, 0, 0);
 
+    // Texture Loader
+    const textureLoader = new THREE.TextureLoader();
+
     // Scene
     const scene = new THREE.Scene();
+    scene.background = textureLoader.load(StarsTexture);
 
-    function createSphericalMesh(radius, color) {
-      const sphereGeometry = new THREE.SphereGeometry(radius, 12, 12);
-      const sphereMaterial = new THREE.MeshPhongMaterial({emissive: color});
+    // Mesh Creator
+    function createSphericalMesh({radius, texture}) {
+      const sphereGeometry = new THREE.SphereGeometry(radius, 24, 24);
+      const sphereMaterial = new THREE.MeshBasicMaterial({map: textureLoader.load(texture)});
       const sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
       sphereMesh.position.set(0, 0, 0);
       scene.add(sphereMesh);
@@ -32,42 +49,42 @@ function App() {
     }
 
     // Sun
-    const sunMesh = createSphericalMesh(10, 0xFFFF00);
+    const sunMesh = createSphericalMesh({ radius: 10, texture: SunTexture});
 
     // Mercury
-    const mercuryMesh = createSphericalMesh(1, 0x666666);
+    const mercuryMesh = createSphericalMesh({radius: 1, texture: MercuryTexture});
     const mercuryPath = new THREE.EllipseCurve(0, -10, 20, 30, 0, Math.PI * 2);
 
     // Venus
-    const venusMesh = createSphericalMesh(1.5, 0xCCCCCC);
+    const venusMesh = createSphericalMesh({radius: 1.5, texture: VenusTexture});
     const venusPath = new THREE.EllipseCurve(0, -15, 30, 45, Math.PI / 2, 5 * Math.PI / 2, true);
 
     // Earth
-    const earthMesh = createSphericalMesh(1.5, 0x0000FF);
+    const earthMesh = createSphericalMesh({radius: 1.5, texture: EarthTexture});
     const earthPath = new THREE.EllipseCurve(0, -20, 40, 60, Math.PI, Math.PI * 3);
 
     // Mars
-    const marsMesh = createSphericalMesh(1, 0xFF6633);
+    const marsMesh = createSphericalMesh({radius: 1, texture: MarsTexture});
     const marsPath = new THREE.EllipseCurve(0, -15, 50, 75, 3 * Math.PI / 2, 7 * Math.PI / 2);
 
     // Jupiter
-    const jupiterMesh = createSphericalMesh(2.5, 0xFF9999);
+    const jupiterMesh = createSphericalMesh({radius: 2.5, texture: JupiterTexture});
     const jupiterPath = new THREE.EllipseCurve(0, -15, 60, 90, 0, Math.PI * 2);
 
     // Saturn
-    const saturnMesh = createSphericalMesh(2.5, 0xFFFFCC);
+    const saturnMesh = createSphericalMesh({radius: 2.5, texture: SaturnTexture});
     const saturnPath = new THREE.EllipseCurve(0, -15, 70, 105, Math.PI / 2, 5 * Math.PI / 2);
 
     // Uranus
-    const uranusMesh = createSphericalMesh(2, 0xCCCCFF);
+    const uranusMesh = createSphericalMesh({radius: 2, texture: UranusTexture});
     const uranusPath = new THREE.EllipseCurve(0, -15, 80, 120, Math.PI, Math.PI * 3);
 
     // Neptune
-    const neptuneMesh = createSphericalMesh(2, 0x0000FF);
+    const neptuneMesh = createSphericalMesh({radius: 2, texture: NeptuneTexture});
     const neptunePath = new THREE.EllipseCurve(0, -15, 90, 135, 3 * Math.PI / 2, 7 * Math.PI / 2);
 
     // Pluto
-    const plutoMesh = createSphericalMesh(1, 0xCCCCCC);
+    const plutoMesh = createSphericalMesh({radius: 1, texture: PlutoTexture});
     const plutoPath = new THREE.EllipseCurve(0, -15, 100, 150, 0, Math.PI * 2);
 
     // Render
@@ -89,6 +106,8 @@ function App() {
       const position = new THREE.Vector2();
       path.getPointAt(time * timeFactor % 1, position);
       mesh.position.set(position.x, position.y, 0);
+
+      mesh.rotation.z = time;
     }
 
     function render(time) {
@@ -99,6 +118,9 @@ function App() {
         camera.aspect = canvas.clientWidth / canvas.clientHeight;
         camera.updateProjectionMatrix();
       }
+
+      //Sun Position Update
+      sunMesh.rotation.z = time;
 
       // Mercury Position Update
       updatePosition(mercuryMesh, mercuryPath, time, 1/2);
@@ -129,9 +151,7 @@ function App() {
 
       renderer.render(scene, camera);
 
-      setTimeout(() => {
-        requestAnimationFrame(render);
-      }, 16);
+      requestAnimationFrame(render);
     }
 
     requestAnimationFrame(render);
