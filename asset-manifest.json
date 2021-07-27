@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/solarsystem/static/css/main.067d6e11.chunk.css",
+    "main.css": "/solarsystem/static/css/main.80f1251c.chunk.css",
     "main.js": "/solarsystem/static/js/main.6af2cacf.chunk.js",
     "main.js.map": "/solarsystem/static/js/main.6af2cacf.chunk.js.map",
     "runtime-main.js": "/solarsystem/static/js/runtime-main.6d84775b.js",
@@ -10,7 +10,7 @@
     "static/js/3.d960bf5b.chunk.js": "/solarsystem/static/js/3.d960bf5b.chunk.js",
     "static/js/3.d960bf5b.chunk.js.map": "/solarsystem/static/js/3.d960bf5b.chunk.js.map",
     "index.html": "/solarsystem/index.html",
-    "static/css/main.067d6e11.chunk.css.map": "/solarsystem/static/css/main.067d6e11.chunk.css.map",
+    "static/css/main.80f1251c.chunk.css.map": "/solarsystem/static/css/main.80f1251c.chunk.css.map",
     "static/js/2.c9034eb7.chunk.js.LICENSE.txt": "/solarsystem/static/js/2.c9034eb7.chunk.js.LICENSE.txt",
     "static/media/earth.981cc3e3.jpeg": "/solarsystem/static/media/earth.981cc3e3.jpeg",
     "static/media/jupiter.3e84533e.jpeg": "/solarsystem/static/media/jupiter.3e84533e.jpeg",
@@ -27,7 +27,7 @@
   "entrypoints": [
     "static/js/runtime-main.6d84775b.js",
     "static/js/2.c9034eb7.chunk.js",
-    "static/css/main.067d6e11.chunk.css",
+    "static/css/main.80f1251c.chunk.css",
     "static/js/main.6af2cacf.chunk.js"
   ]
 }
