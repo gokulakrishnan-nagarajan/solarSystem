@@ -27,9 +27,9 @@ function App() {
     const near = 0.1;
     const far = 1000;
     const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    camera.position.set(0, 0, 150);
+    camera.position.set(150, 0, 50);
     camera.up.set(0, 0, 1);
-    camera.lookAt(0, 0, 0);
+    camera.lookAt(0, 0, -10);
 
     // Texture Loader
     const textureLoader = new THREE.TextureLoader();
@@ -44,6 +44,7 @@ function App() {
       const sphereMaterial = new THREE.MeshBasicMaterial({map: textureLoader.load(texture)});
       const sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
       sphereMesh.position.set(0, 0, 0);
+      sphereMesh.rotation.x = Math.PI / 2;
       scene.add(sphereMesh);
       return sphereMesh;
     }
@@ -107,7 +108,7 @@ function App() {
       path.getPointAt(time * timeFactor % 1, position);
       mesh.position.set(position.x, position.y, 0);
 
-      mesh.rotation.z = time;
+      mesh.rotation.y = time;
     }
 
     function render(time) {
@@ -120,7 +121,7 @@ function App() {
       }
 
       //Sun Position Update
-      sunMesh.rotation.z = time;
+      sunMesh.rotation.y = time;
 
       // Mercury Position Update
       updatePosition(mercuryMesh, mercuryPath, time, 1/2);
