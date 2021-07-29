@@ -89,20 +89,6 @@ function App() {
     const plutoPath = new THREE.EllipseCurve(0, -15, 100, 150, 0, Math.PI * 2);
 
     // Render
-    function resizeRendereToDisplaySize(renderer) {
-      const canvas = renderer.domElement;
-      const width = canvas.clientWidth;
-      const height = canvas.clientHeight;
-
-      const needResize = width !== canvas.width || height !== canvas.height;
-
-      if(needResize) {
-        renderer.setSize(width, height, false);
-      }
-
-      return needResize;
-    }
-
     function updatePosition(mesh, path, time, timeFactor) {
       const position = new THREE.Vector2();
       path.getPointAt(time * timeFactor % 1, position);
@@ -113,12 +99,6 @@ function App() {
 
     function render(time) {
       time = time * 0.001;
-
-      if(resizeRendereToDisplaySize(renderer)) {
-        const canvas = renderer.domElement;
-        camera.aspect = canvas.clientWidth / canvas.clientHeight;
-        camera.updateProjectionMatrix();
-      }
 
       //Sun Position Update
       sunMesh.rotation.y = time;
@@ -156,6 +136,27 @@ function App() {
     }
 
     requestAnimationFrame(render);
+
+    // Handle Window Resize
+    function handleResize() {
+      const canvas = renderer.domElement;
+      const canvasClientWidth = canvas.clientWidth;
+      const canvasClientHeight = canvas.clientHeight;
+
+      if(canvasClientWidth !== canvas.width || canvasClientHeight !== canvas.height) {
+        renderer.setSize(canvasClientWidth, canvasClientHeight, false);
+
+        camera.aspect = canvasClientWidth / canvasClientHeight;
+        camera.updateProjectionMatrix();
+      }
+    }
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   return (
